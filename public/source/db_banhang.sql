@@ -134,6 +134,7 @@ CREATE TABLE `products` (
   `promotion_price` float DEFAULT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `unit` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `new` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
