@@ -6,6 +6,7 @@ use App\Models\Product as ModelsProduct;
 use App\Models\Slide;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\ProductType;
 
 class PageController extends Controller
 {
@@ -25,8 +26,9 @@ class PageController extends Controller
         // return view('page.trangchu',['slide'=>$slide]);
         return view('page.trangchu', compact('slide', 'new_product', 'sanpham_khuyenmai'));
     }
-    public function getLoaiSp()
+    public function getLoaiSp($type)
     {
+        $sp_theoloai = Product::where('id_type',$type)->get();
         return view('page.loai_sanpham');
     }
     public function getChitiet()
