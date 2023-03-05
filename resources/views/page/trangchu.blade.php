@@ -60,13 +60,14 @@
                                             <span class="flash-del">{{number_format($new->unit_price)}} đồng</span>
                                             <span class="flash-sale">{{number_format($new->promotion_price)}} đồng</span>
                                             @endif
-                                            <!-- <span class="flash-del">{{$new->unit_price}}</span>
-                                            <span class="flash-sale">{{$new->promotion_price}}</span> -->
                                         </p>
                                     </div>
+
+                                    
+
                                     <div class="single-item-caption">
-                                        <a class="add-to-cart pull-left" href="shopping_cart.html"><i class="fa fa-shopping-cart"></i></a>
-                                        <a class="beta-btn primary" href="product.html">Details <i class="fa fa-chevron-right"></i></a>
+                                        <a class="add-to-cart pull-left" href="{{route('themgiohang',$new->id)}}"><i class="fa fa-shopping-cart"></i></a>
+                                        <a class="beta-btn primary" href="product.html">Chi tiet <i class="fa fa-chevron-right"></i></a>
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>

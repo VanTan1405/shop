@@ -7,6 +7,8 @@ use App\Models\Slide;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductType;
+use App\Cart;
+use Illuminate\Support\Facades\Session;
 
 class PageController extends Controller
 {
@@ -14,16 +16,11 @@ class PageController extends Controller
     public function getIndex()
     {
         $slide = Slide::all();
-        // $new_product = Product::where('new', 1)->get();
         //tien hanh phan trang 4sp
         $new_product = Product::where('new', 1)->paginate(4);
         //tao bien sp khuyen mai 
         $sanpham_khuyenmai = Product::where('promotion_price', '<>', 0)->paginate(8);
-        // dd($new_product);
-        // print_r($slide);
-        // exit;
-        // return view('page.trangchu');
-        // return view('page.trangchu',['slide'=>$slide]);
+
         return view('page.trangchu', compact('slide', 'new_product', 'sanpham_khuyenmai'));
     }
     public function getLoaiSp($type)
@@ -47,5 +44,14 @@ class PageController extends Controller
     public function getGioiThieu()
     {
         return view('page.gioithieu');
+    }
+    public function getAddtoCart(Request $req, $id)
+    {
+        $product = Product::find($id);
+        $oldCart = Session('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->add($product, $id);
+        $req->session()->put('cart', $cart);
+        return redirect()->back();
     }
 }
