@@ -7,8 +7,14 @@ use App\Models\Slide;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductType;
+// use App\Cart;
+// use App\Cart;
+// use App\Cart;
 use App\Cart;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Session;
+use App\Models\Bill;
+use App\Models\BillDetail;
 
 class PageController extends Controller
 {
@@ -68,5 +74,49 @@ class PageController extends Controller
             Session::forget('cart');
         }
         return redirect()->back();
+    }
+    public function getCheckout()
+    {
+        // return view('page.dat_hang');
+        if (Session::has('cart')) {
+            $oldCart = Session::get('cart');
+            $cart = new Cart($oldCart);
+            return view('page.dat_hang', ['product_cart' => $cart->items, 'totalPrice' => $cart->totalPrice, 'totalQty' => $cart->totalQty]);
+        } else {
+            return view('page.dat_hang');
+        }
+    }
+    public function postCheckout(Request $req)
+    {
+        $cart = Session::get('cart');
+        // dd($cart);
+        $customer = new Customer;
+        $customer->name = $req->full_name;
+        $customer->gender = $req->gender;
+        $customer->email = $req->email;
+        $customer->address = $req->address;
+        $customer->phone_number = $req->phone;
+        $customer->note = $req->notes;
+        $customer->save();
+
+        $bill = new Bill;
+        $bill->id_customer = $customer->id;
+        $bill->date_order = date('Y-m-d');
+        $bill->total = $cart->totalPrice;
+        $bill->payment = $req->payment_method;
+        $bill->note = $req->notes;
+        $bill->save();
+        // trong session co bao nhieu san thi bill_+detail luu bay nhieu san pham
+
+        foreach ($cart->items as $key => $value) {
+            $bill_detail = new BillDetail;
+            $bill_detail->id_bill = $bill->id;
+            $bill_detail->id_product =  $key;
+            $bill_detail->quantity = $value['qty'];
+            $bill_detail->unit_price = $value['price'] / $value['qty'];
+            $bill_detail->save();
+        }
+        Session::forget('cart');
+        return redirect()->back()->with('Thongbao', 'Dat hang thanh cong');
     }
 }
