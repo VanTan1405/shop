@@ -15,6 +15,11 @@ use App\Models\Customer;
 use Illuminate\Support\Facades\Session;
 use App\Models\Bill;
 use App\Models\BillDetail;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+use function PHPSTORM_META\type;
 
 class PageController extends Controller
 {
@@ -117,6 +122,87 @@ class PageController extends Controller
             $bill_detail->save();
         }
         Session::forget('cart');
-        return redirect()->back()->with('Thongbao', 'Dat hang thanh cong');
+        return redirect()->back()->with('thongbao', 'Đặt hàng thành công');
+    }
+    public function getLogin()
+    {
+        return view('page.dangnhap');
+    }
+    public function getSignin()
+    {
+        return view('page.dangki');
+    }
+
+    public function postSignin(Request $req)
+    {
+        $this->validate(
+            $req,
+            [
+                // dinh dang imail, khong cho nguoi dung da dk dk them nua(unique) 
+                'email' => 'required|email|unique:users,email',
+                // buoc nguoi dung nhap pass 6<pass<20
+                'password' => 'required|min:6|max:20',
+                'fullname' => 'required',
+                // nhap sai pass bat nguoi dung nhap lai
+                're_password' => 'required|same:password'
+            ],
+            [
+                'email.required' => 'Vui lòng nhập email',
+                'email.email' => 'Không đúng định dạng email',
+                'email.unique' => 'Email đã có người sử dụng',
+                'password.required' => 'Vui lòng nhập mật khẩu',
+                're_password.same' => 'Mật khẩu không giống nhau',
+                'password.min' => 'Mật khẩu ít nhất 6 kí tự'
+            ]
+        );
+
+        $user = new User();
+        $user->full_name = $req->fullname;
+        $user->email = $req->email;
+        // ma hoa password
+        $user->password = Hash::make($req->password);
+        $user->phone = $req->phone;
+        $user->address = $req->address;
+        $user->save();
+        return redirect()->back()->with('thanhcong', 'Tạo tài khoản thành công');
+    }
+
+    public function postLogin(Request $req)
+    {
+        $this->validate(
+            $req,
+            [
+                'email' => 'required|email',
+                'password' => 'required|min:6|max:20'
+            ],
+            [
+                'email.required' => 'Vui lòng nhập email',
+                'email.email' => 'Không đúng định dạng email',
+                'password.required' => 'Vui lòng nhập mật khẩu',
+                'password.min' => 'Mật khẩu ít nhất 6 kí tự',
+                'password.max' => 'Mật khẩu không quá 20 kí tự'
+            ]
+        );
+        $credentials = array('email' => $req->email, 'password' => $req->password);
+        if (Auth::attempt($credentials)) {
+            return redirect()->back()->with(['flag' => 'success', 'message' => 'Đăng nhập thành công']);
+        } else {
+            return redirect()->back()->with(['flag' => 'danger', 'message' => 'Đăng nhập không thành công']);
+        }
+    }
+
+    public function getLogout()
+    {
+        Auth::logout();
+        return redirect()->route('trang-chu');
+    }
+
+    // SEARCH
+
+    public function getSearch(Request $req){
+        $product = Product::where('name' , 'like','%'. $req->key. '%')
+        ->orwhere('unit_price',$req->key)
+        ->get();
+return view('page.search', compact('product'));
     }
 }

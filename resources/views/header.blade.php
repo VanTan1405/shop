@@ -9,9 +9,15 @@
 			</div>
 			<div class="pull-right auto-width-right">
 				<ul class="top-details menu-beta l-inline">
-					<li><a href="#"><i class="fa fa-user"></i>Tài khoản</a></li>
-					<li><a href="#">Đăng kí</a></li>
-					<li><a href="#">Đăng nhập</a></li>
+					{{-- <li><a href="#"><i class="fa fa-user"></i>Tài khoản</a></li> --}}
+					{{-- kiem tra dnag nhap --}}
+					@if(Auth::check())
+					<li><a href="">Chào bạn {{Auth::user()->full_name}}</a></li>
+					<li><a href="{{route('logout')}}">Đăng xuất</a></li>
+					@else
+					<li><a href="{{route('signin')}}">Đăng kí</a></li>
+					<li><a href="{{route('login')}}">Đăng nhập</a></li>
+					@endif
 				</ul>
 			</div>
 			<div class="clearfix"></div>
@@ -25,8 +31,8 @@
 			<div class="pull-right beta-components space-left ov">
 				<div class="space10">&nbsp;</div>
 				<div class="beta-comp">
-					<form role="search" method="get" id="searchform" action="/">
-						<input type="text" value="" name="s" id="s" placeholder="Nhập từ khóa..." />
+					<form role="search" method="get" id="searchform" action="{{route('search')}}">
+						<input type="text" value="" name="key" id="key" placeholder="Nhập từ khóa..." />
 						<button class="fa fa-search" type="submit" id="searchsubmit"></button>
 					</form>
 				</div>
