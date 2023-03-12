@@ -3,8 +3,8 @@
 		<div class="container">
 			<div class="pull-left auto-width-left">
 				<ul class="top-menu menu-beta l-inline">
-					<li><a href=""><i class="fa fa-home"></i> 90-92 Lê Thị Riêng, Bến Thành, Quận 1</a></li>
-					<li><a href=""><i class="fa fa-phone"></i> 0163 296 7751</a></li>
+					<li><a href=""><i class="fa fa-home"></i>  10/9 Đường số 11 Bình Thọ, Thủ Đức</a></li>
+					<li><a href=""><i class="fa fa-phone"></i> 0799 465 582 </a></li>
 				</ul>
 			</div>
 			<div class="pull-right auto-width-right">
@@ -15,8 +15,8 @@
 					<li><a href="">Chào bạn {{Auth::user()->full_name}}</a></li>
 					<li><a href="{{route('logout')}}">Đăng xuất</a></li>
 					@else
-					<li><a href="{{route('signin')}}">Đăng kí</a></li>
-					<li><a href="{{route('login')}}">Đăng nhập</a></li>
+					<li><a href="{{route('signin')}}" style="font-family: bold; font-size: 15px; color: blue" >Đăng kí</a></li>
+					<li><a href="{{route('login')}}" style="font-family: bold; font-size: 15px; color: blue">Đăng nhập</a></li>
 					@endif
 				</ul>
 			</div>
@@ -31,8 +31,11 @@
 			<div class="pull-right beta-components space-left ov">
 				<div class="space10">&nbsp;</div>
 				<div class="beta-comp">
-					<form role="search" method="get" id="searchform" action="{{route('search')}}">
-						<input type="text" value="" name="key" id="key" placeholder="Nhập từ khóa..." />
+					<form role="search" method="get" id="searchform" action="{{route('search')}}" style="position: relative;
+					width: 443px;
+					display: inline-block;
+					margin-right: 250px;">
+						<input style="border-radius: 14px; padding: 0 43px;" type="text" value="" name="key" id="key" placeholder="Nhập từ khóa..." />
 						<button class="fa fa-search" type="submit" id="searchsubmit"></button>
 					</form>
 				</div>
@@ -40,7 +43,7 @@
 				<div class="beta-comp">
 					{{-- @if (Session::has('cart')) --}}
 					<div class="cart">
-						<div class="beta-select"><i class="fa fa-shopping-cart"></i>Gio hang (@if(Session::has('cart')){{Session('cart')->totalQty}} @else Trống @endif)<i class="fa fa-chevron-down"></i></div>
+						<div class="beta-select"><i class="fa fa-shopping-cart"></i>Giỏ hàng (@if(Session::has('cart')){{Session('cart')->totalQty}} @else Trống @endif)<i class="fa fa-chevron-down"></i></div>
 						@if(Session::has('cart'))
 						<div class="beta-dropdown cart-body">
 							{{-- LOI 7/3 --}}
@@ -76,7 +79,7 @@
 			<div class="clearfix"></div>
 		</div> <!-- .container -->
 	</div> <!-- .header-body -->
-	<div class="header-bottom" style="background-color: #0277b8;">
+	<div class="header-bottom" style="background-color: #b2b2b2; font-family: bold;">
 		<div class="container">
 			<a class="visible-xs beta-menu-toggle pull-right" href="#"><span class='beta-menu-toggle-text'>Menu</span> <i class="fa fa-bars"></i></a>
 			<div class="visible-xs clearfix"></div>

@@ -799,11 +799,18 @@ color:#000
 }
 
 input[type="text"],input[type="email"],input[type="url"],textarea {
-width:100%;
+/* width:100%;
 border:1px solid #e1e1e1;
 height:37px;
-padding:0 12px
+padding:0 12px */
+
+width: 100%;
+    border: 1px solid #e1e1e1;
+    height: 37px;
+    padding: 0 12px;
 }
+
+
 
 textarea {
 height:260px;
@@ -1675,9 +1682,15 @@ color:#f90
 ============================================================================= */
 
 #searchform {
-position:relative;
+/* position:relative;
 width:218px;
-display:inline-block
+display:inline-block */
+
+position: relative;
+width: 328px;
+display: inline-block;
+padding-right: 0px;
+margin-right: 316p
 }
 
 #searchform #s {
